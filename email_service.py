@@ -5,7 +5,7 @@ import configparser
 # get the variables from the config file so that they can be changed later
 def get_email_info():
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read('devconfig.ini')
 
     # Get sender email
     sender_email = config['Sender']['Email']
