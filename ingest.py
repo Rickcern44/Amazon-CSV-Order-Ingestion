@@ -27,7 +27,7 @@ diff_count = 0
 # Get the connection info for the Local DB
 def get_local_database_info():
     config = configparser.ConfigParser()
-    config.read('devconfig.ini')
+    config.read('config.ini')
 
     server_name = config['LocalDatabase']['Server']
     db_name = config['LocalDatabase']['Database']
