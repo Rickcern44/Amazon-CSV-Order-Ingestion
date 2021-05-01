@@ -27,7 +27,7 @@ diff_count = 0
 # Get the connection info for the Local DB
 def get_local_database_info():
     config = configparser.ConfigParser()
-    config.read('devconfig.ini')
+    config.read('config.ini')
 
     server_name = config['LocalDatabase']['Server']
     db_name = config['LocalDatabase']['Database']
@@ -71,6 +71,7 @@ def check_for_file():
     today = datetime.today().strftime('%d-%b-%Y')
 
     global file_name
+
     file_name = f'{path}/01-Jan-{current_year}_to_{today}.csv'
 
     return os.path.exists(file_name)
@@ -175,7 +176,7 @@ def insert_data_frame(df):
 
 
 def main():
-    # Get the amount of time the script takes to run
+    # Get the start time of the main function
     start_time = get_time()
     # Check to see if the file exixts in the folder and assign it to a bool
     file_exists = check_for_file()

@@ -1,2 +1,5 @@
 devconfig.ini
+config.ini
 *.log
+*.pyc
+*.pyo
