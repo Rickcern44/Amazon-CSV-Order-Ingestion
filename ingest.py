@@ -53,10 +53,8 @@ def get_file_location():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    file_location = config["Path"]["LocalPath"]
-
-
-return file_location
+    file_location = config["Path"]["ServerPath"]
+    return file_location
 
 
 # Get the current time in order to to some time keeping in the main function
