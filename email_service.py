@@ -7,7 +7,7 @@ import configparser
 
 def get_email_info():
     config = configparser.ConfigParser()
-    config.read('devconfig.ini')
+    config.read('config.ini')
 
     # Get sender email
     sender_email = config['Sender']['Email']
