@@ -50,11 +50,21 @@ def get_aws_db_info():
 
 # Get the config file path for server or local path
 def get_file_location():
+
     config = configparser.ConfigParser()
     config.read('config.ini')
+    # Check the config env and set the variable to it for later
+    env = config["env"]["env"]
 
-    file_location = config["Path"]["ServerPath"]
-    return file_location
+    if env == "Development":
+        file_location = config["Path"]["LocalPath"]
+        return file_location
+    if env == "Production":
+        file_location = config["Path"]["ServerPath"]
+        return file_location
+    else:
+        logging.critical(
+            "There was an error finding the file please check your config file Environment")
 
 
 # Get the current time in order to to some time keeping in the main function
@@ -187,7 +197,7 @@ def main():
             total_time = end_time - start_time
             logging.info(
                 f'The total time taken for the script is {round(total_time, 3)} seconds. No new rows were added to the database.')
-            pass
+            es.send_success_email(record_data[1], round(total_time, 3))
         else:
             insert_data_frame(record_data[0])
 
