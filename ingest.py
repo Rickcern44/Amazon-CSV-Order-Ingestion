@@ -27,7 +27,7 @@ diff_count = 0
 # Get the connection info for the Local DB
 def get_local_database_info():
     config = configparser.ConfigParser()
-    config.read('devconfig.ini')
+    config.read('config.ini')
 
     server_name = config['LocalDatabase']['Server']
     db_name = config['LocalDatabase']['Database']
@@ -48,6 +48,25 @@ def get_aws_db_info():
     return server_name, db_name, username, password
 
 
+# Get the config file path for server or local path
+def get_file_location():
+
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    # Check the config env and set the variable to it for later
+    env = config["env"]["env"]
+
+    if env == "Development":
+        file_location = config["Path"]["LocalPath"]
+        return file_location
+    if env == "Production":
+        file_location = config["Path"]["ServerPath"]
+        return file_location
+    else:
+        logging.critical(
+            "There was an error finding the file please check your config file Environment")
+
+
 # Get the current time in order to to some time keeping in the main function
 def get_time():
     return time.time()
@@ -55,11 +74,13 @@ def get_time():
 
 # Check to make sure the file exists and return a bool based on that.
 def check_for_file():
+    path = get_file_location()
     current_year = datetime.today().strftime('%Y')
     today = datetime.today().strftime('%d-%b-%Y')
 
     global file_name
-    file_name = f'C:/Users/Ricky/Desktop/LandingZone/01-Jan-{current_year}_to_{today}.csv'
+
+    file_name = f'{path}/01-Jan-{current_year}_to_{today}.csv'
 
     return os.path.exists(file_name)
 
@@ -163,7 +184,7 @@ def insert_data_frame(df):
 
 
 def main():
-    # Get the amount of time the script takes to run
+    # Get the start time of the main function
     start_time = get_time()
     # Check to see if the file exixts in the folder and assign it to a bool
     file_exists = check_for_file()
@@ -176,7 +197,7 @@ def main():
             total_time = end_time - start_time
             logging.info(
                 f'The total time taken for the script is {round(total_time, 3)} seconds. No new rows were added to the database.')
-            pass
+            es.send_success_email(record_data[1], round(total_time, 3))
         else:
             insert_data_frame(record_data[0])
 

@@ -1,2 +1,7 @@
 devconfig.ini
+config.ini
+env.ini
 *.log
+*.pyc
+*.pyo
+__pycache__/email_service.cpython-38.pyc

@@ -1,11 +1,13 @@
 import smtplib
 import configparser
 
-
+# Adding a comment to make the Dev branch
 # get the variables from the config file so that they can be changed later
+
+
 def get_email_info():
     config = configparser.ConfigParser()
-    config.read('devconfig.ini')
+    config.read('config.ini')
 
     # Get sender email
     sender_email = config['Sender']['Email']
