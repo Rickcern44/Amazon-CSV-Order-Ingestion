@@ -48,6 +48,17 @@ def get_aws_db_info():
     return server_name, db_name, username, password
 
 
+# Get the config file path for server or local path
+def get_file_location():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    file_location = config["Path"]["LocalPath"]
+
+
+return file_location
+
+
 # Get the current time in order to to some time keeping in the main function
 def get_time():
     return time.time()
@@ -55,11 +66,12 @@ def get_time():
 
 # Check to make sure the file exists and return a bool based on that.
 def check_for_file():
+    path = get_file_location()
     current_year = datetime.today().strftime('%Y')
     today = datetime.today().strftime('%d-%b-%Y')
 
     global file_name
-    file_name = f'C:/Users/Ricky/Desktop/LandingZone/01-Jan-{current_year}_to_{today}.csv'
+    file_name = f'{path}/01-Jan-{current_year}_to_{today}.csv'
 
     return os.path.exists(file_name)
 
